@@ -8,7 +8,7 @@ namespace GenericHost
     {
         public IHost Execute(ServiceProviderList list)
         {
-            var builder = new HostBuilder();
+            var builder = Host.CreateDefaultBuilder();
 
             builder.ConfigureServices(services =>
             {
