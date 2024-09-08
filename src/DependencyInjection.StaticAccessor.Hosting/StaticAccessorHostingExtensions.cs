@@ -13,23 +13,43 @@ namespace Microsoft.Extensions.Hosting
         /// </summary>
         public static IHostBuilder UsePinnedScopeServiceProvider(this IHostBuilder hostBuilder, Action<ServiceProviderOptions>? configure = null)
         {
-            return hostBuilder.UseEditableServiceProvider(ServiceProviderFactoryBuilder.CreatePinned(), configure);
+            return hostBuilder.UseEditableServiceProvider((builder, context, options) =>
+            {
+                builder.Add(new ServiceScopeFactoryPinnedReplacer());
+                configure?.Invoke(options);
+            });
         }
 
         /// <summary>
         /// Use <see cref="EditableServiceProviderFactory"/> that can apply aspects before and after the <see cref="IServiceProviderFactory{TContainerBuilder}"/> builds.
         /// </summary>
-        public static IHostBuilder UseEditableServiceProvider(this IHostBuilder hostBuilder, ServiceProviderFactoryBuilder factoryBuilder, Action<ServiceProviderOptions>? configure = null)
+        public static IHostBuilder UseEditableServiceProvider(this IHostBuilder hostBuilder, Action<ServiceProviderFactoryBuilder> configure)
         {
-            ServiceProviderOptions? options = null;
-            if (configure != null)
-            {
-                options = new ServiceProviderOptions();
-                configure(options);
-            }
+            return hostBuilder.UseEditableServiceProvider((builder, context, options) => configure(builder));
+        }
 
-            var factory = factoryBuilder.Build(options);
-            hostBuilder.UseServiceProviderFactory(factory);
+        /// <summary>
+        /// <inheritdoc cref="UseEditableServiceProvider(IHostBuilder, Action{ServiceProviderFactoryBuilder})"/>
+        /// </summary>
+        public static IHostBuilder UseEditableServiceProvider(this IHostBuilder hostBuilder, Action<ServiceProviderFactoryBuilder, ServiceProviderOptions> configure)
+        {
+            return hostBuilder.UseEditableServiceProvider((builder, context, options) => configure(builder, options));
+        }
+
+        /// <summary>
+        /// <inheritdoc cref="UseEditableServiceProvider(IHostBuilder, Action{ServiceProviderFactoryBuilder})"/>
+        /// </summary>
+        public static IHostBuilder UseEditableServiceProvider(this IHostBuilder hostBuilder, Action<ServiceProviderFactoryBuilder, HostBuilderContext, ServiceProviderOptions> configure)
+        {
+            hostBuilder.UseServiceProviderFactory(context =>
+            {
+                var builder = ServiceProviderFactoryBuilder.CreateDefault();
+                var options = new ServiceProviderOptions();
+
+                configure(builder, context, options);
+
+                return builder.Build(options);
+            });
 
             return hostBuilder;
         }

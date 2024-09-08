@@ -41,11 +41,5 @@ namespace DependencyInjection.StaticAccessor
         /// Create an empty <see cref="ServiceProviderFactoryBuilder"/>
         /// </summary>
         public static ServiceProviderFactoryBuilder CreateDefault() => new();
-
-        /// <summary>
-        /// Create a <see cref="ServiceProviderFactoryBuilder"/> with an <see cref="IBuilt"/> that makes <see cref="PinnedScope"/> work.
-        /// </summary>
-        /// <returns></returns>
-        public static ServiceProviderFactoryBuilder CreatePinned() => CreateDefault().Add(new ServiceScopeFactoryPinnedReplacer());
     }
 }
