@@ -14,9 +14,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F3E6B29-8A8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{A8F6DC35-BD39-4426-833A-A7461A0F10A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.StaticAccessor", "src\DependencyInjection.StaticAccessor\DependencyInjection.StaticAccessor.csproj", "{FECB34B0-0306-4ED1-8FB9-B4A0AECDFB67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection.StaticAccessor", "src\DependencyInjection.StaticAccessor\DependencyInjection.StaticAccessor.csproj", "{FECB34B0-0306-4ED1-8FB9-B4A0AECDFB67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.StaticAccessor.Hosting", "src\DependencyInjection.StaticAccessor.Hosting\DependencyInjection.StaticAccessor.Hosting.csproj", "{90E821FD-71F2-4476-95F5-3D465E528476}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DependencyInjection.StaticAccessor.Hosting", "src\DependencyInjection.StaticAccessor.Hosting\DependencyInjection.StaticAccessor.Hosting.csproj", "{90E821FD-71F2-4476-95F5-3D465E528476}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAssemblies", "TestAssemblies", "{2911DB71-33F1-499F-9D2A-53E3794D58F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GenericHost", "test\TestAssemblies\GenericHost\GenericHost.csproj", "{B0290C64-2668-4172-8AA6-CB7A382D70B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLib", "test\TestAssemblies\CommonLib\CommonLib.csproj", "{54FCA6AA-E886-431C-9BA4-E456B2749069}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StaticAccessor.Tests", "test\StaticAccessor.Tests\StaticAccessor.Tests.csproj", "{9FBFBACF-C99D-4C06-B182-682F92DB1B5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +40,18 @@ Global
 		{90E821FD-71F2-4476-95F5-3D465E528476}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90E821FD-71F2-4476-95F5-3D465E528476}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90E821FD-71F2-4476-95F5-3D465E528476}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0290C64-2668-4172-8AA6-CB7A382D70B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0290C64-2668-4172-8AA6-CB7A382D70B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0290C64-2668-4172-8AA6-CB7A382D70B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0290C64-2668-4172-8AA6-CB7A382D70B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54FCA6AA-E886-431C-9BA4-E456B2749069}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54FCA6AA-E886-431C-9BA4-E456B2749069}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54FCA6AA-E886-431C-9BA4-E456B2749069}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54FCA6AA-E886-431C-9BA4-E456B2749069}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FBFBACF-C99D-4C06-B182-682F92DB1B5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FBFBACF-C99D-4C06-B182-682F92DB1B5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FBFBACF-C99D-4C06-B182-682F92DB1B5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FBFBACF-C99D-4C06-B182-682F92DB1B5A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +59,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{FECB34B0-0306-4ED1-8FB9-B4A0AECDFB67} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
 		{90E821FD-71F2-4476-95F5-3D465E528476} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
+		{2911DB71-33F1-499F-9D2A-53E3794D58F4} = {A8F6DC35-BD39-4426-833A-A7461A0F10A9}
+		{B0290C64-2668-4172-8AA6-CB7A382D70B3} = {2911DB71-33F1-499F-9D2A-53E3794D58F4}
+		{54FCA6AA-E886-431C-9BA4-E456B2749069} = {2911DB71-33F1-499F-9D2A-53E3794D58F4}
+		{9FBFBACF-C99D-4C06-B182-682F92DB1B5A} = {A8F6DC35-BD39-4426-833A-A7461A0F10A9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12E30C92-0641-41CA-B835-ED3595378DD6}
