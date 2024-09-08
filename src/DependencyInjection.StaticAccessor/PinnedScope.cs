@@ -59,7 +59,12 @@ namespace DependencyInjection.StaticAccessor
         /// <summary>
         /// Get the <see cref="IServiceProvider"/> of the current scope, or the root <see cref="IServiceProvider"/> if not within a scope, or null if you have not set up the <see cref="PinnedServiceScopeFactory"/>.
         /// </summary>
-        public static IServiceProvider? Services => Scope?.ServiceProvider;
+        public static IServiceProvider? Services => Scope?.ServiceProvider ?? RootServices;
+
+        /// <summary>
+        /// Get the root <see cref="IServiceProvider"/>
+        /// </summary>
+        public static IServiceProvider? RootServices { get; internal set; }
 
         /// <summary>
         /// <inheritdoc />

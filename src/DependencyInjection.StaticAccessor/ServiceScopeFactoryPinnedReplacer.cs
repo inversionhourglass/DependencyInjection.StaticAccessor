@@ -41,6 +41,17 @@ namespace DependencyInjection.StaticAccessor
             var factory = ctor.Invoke([typeof(IServiceScopeFactory), new PinnedServiceScopeFactory(root)]);
 
             callSiteCache[key] = factory;
+
+            SetRootServices(serviceProvider);
+        }
+
+        private void SetRootServices(IServiceProvider serviceProvider)
+        {
+            var tServiceProvider = serviceProvider.GetType();
+            var pRoot = tServiceProvider.GetProperty("Root", BindingFlags.Instance | BindingFlags.NonPublic);
+            var engineScope = (IServiceProvider)pRoot.GetValue(serviceProvider);
+
+            PinnedScope.RootServices = engineScope;
         }
     }
 }
