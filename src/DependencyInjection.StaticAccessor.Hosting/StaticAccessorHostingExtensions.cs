@@ -1,8 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using DependencyInjection.StaticAccessor;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace DependencyInjection.StaticAccessor.Hosting
+namespace Microsoft.Extensions.Hosting
 {
     /// <summary>
     /// </summary>
