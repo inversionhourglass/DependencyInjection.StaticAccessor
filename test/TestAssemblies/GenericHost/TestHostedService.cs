@@ -7,7 +7,7 @@ namespace GenericHost
 {
     internal class TestHostedService(IServiceProvider serviceProvider, ServiceProviderList list) : IHostedService
     {
-        public Task StartAsync(CancellationToken cancellationToken)
+        public async Task StartAsync(CancellationToken cancellationToken)
         {
             list.Add((serviceProvider, PinnedScope.RootServices));
             list.Add((serviceProvider, PinnedScope.Services));
@@ -25,9 +25,28 @@ namespace GenericHost
                 {
                     list.Add((innerScope2.ServiceProvider, PinnedScope.Services));
                 }
-            }
 
-            return Task.CompletedTask;
+                var locker1 = new EventWaitHandle(false, EventResetMode.ManualReset);
+                var locker2 = new EventWaitHandle(false, EventResetMode.ManualReset);
+                var t1 = Task.Run(() =>
+                {
+                    locker1.WaitOne();
+                    Console.WriteLine(2);
+                    list.Add((outerScope.ServiceProvider, PinnedScope.Services));
+                    locker2.Set();
+                });
+                var t2 = Task.Run(() =>
+                {
+                    using (var pScope = outerScope.ServiceProvider.CreateScope())
+                    {
+                        list.Add((pScope.ServiceProvider, PinnedScope.Services));
+                        Console.WriteLine(1);
+                        locker1.Set();
+                        locker2.WaitOne();
+                    }
+                });
+                await Task.WhenAll(t1, t2);
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
