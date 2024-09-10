@@ -34,7 +34,7 @@ namespace DependencyInjection.StaticAccessor
         {
             get
             {
-                return _Scope.Value?.Peek();
+                return _Scope.Value?.Current;
             }
             internal set
             {
@@ -43,15 +43,11 @@ namespace DependencyInjection.StaticAccessor
                 if (value == null)
                 {
                     if (scope == null) return;
-                    if (!scope.TryPop()) _Scope.Value = null;
+                    _Scope.Value = scope.Parent;
                 }
                 else
                 {
-                    if (scope == null)
-                    {
-                        _Scope.Value = scope = new();
-                    }
-                    scope.Push(value);
+                    _Scope.Value = new(value, scope);
                 }
             }
         }
@@ -77,23 +73,11 @@ namespace DependencyInjection.StaticAccessor
 
         /// <summary>
         /// </summary>
-        internal sealed class ScopeChain : Stack<IServiceScope>
+        internal sealed class ScopeChain(IServiceScope scope, ScopeChain? parent)
         {
-            /// <summary>
-            /// </summary>
-            public bool TryPop()
-            {
-#if NETSTANDARD2_0
-                if (Count > 0)
-                {
-                    Pop();
-                    return true;
-                }
-                return false;
-#else
-                return TryPop(out _);
-#endif
-            }
+            public IServiceScope Current { get; } = scope;
+
+            public ScopeChain? Parent { get; } = parent;
         }
     }
 }
