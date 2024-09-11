@@ -73,8 +73,8 @@ jobs:
           $branchName = "${{ github.ref_name }}"
           if ($branchName -ne "pre/basic") {
             Gallery-Version -packageName "DependencyInjection.StaticAccessor"
-          }
-          if ($branchName -ne "pre/hosting") {
+          } elseif ($branchName -ne "pre/hosting") {
+            Gallery-Version -packageName "DependencyInjection.StaticAccessor"
             Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
           }
         
@@ -100,11 +100,11 @@ jobs:
           }
           
           if ($branchName -eq "pre/hosting") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Hosting", "DependencyInjection.StaticAccessor.Blazor")
+            $pkgs = @("DependencyInjection.StaticAccessor.Hosting")
           }
 
           if ($branchName -eq "pre/basic") {
-            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting", "DependencyInjection.StaticAccessor.Blazor", "DependencyInjection.StaticAccessor.Blazor.WebAssembly")
+            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting")
           }
 
           foreach ($pkg in $pkgs) {

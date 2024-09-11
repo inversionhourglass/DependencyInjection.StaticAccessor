@@ -61,10 +61,10 @@ jobs:
           }
           
           $tagName = "${{ github.ref_name }}"
-          if ($tagName -ne "basic-") {
+          if ($tagName -notlike "basic-*") {
             Gallery-Version -packageName "DependencyInjection.StaticAccessor"
-          }
-          if ($tagName -ne "hosting-") {
+          } elseif ($tagName -notlike "hosting-*") {
+            Gallery-Version -packageName "DependencyInjection.StaticAccessor"
             Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
           }
 
@@ -93,11 +93,11 @@ jobs:
           }
           
           if ($tagName -like "hosting-*") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Hosting", "DependencyInjection.StaticAccessor.Blazor")
+            $pkgs = @("DependencyInjection.StaticAccessor.Hosting")
           }
 
           if ($tagName -like "basic-*") {
-            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting", "DependencyInjection.StaticAccessor.Blazor", "DependencyInjection.StaticAccessor.Blazor.WebAssembly")
+            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting")
           }
 
           foreach ($pkg in $pkgs) {
