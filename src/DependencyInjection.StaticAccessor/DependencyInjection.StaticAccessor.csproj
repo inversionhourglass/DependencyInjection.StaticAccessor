@@ -1,27 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../../common.props" />
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <VersionPrefix>8.0.0</VersionPrefix>
-    <Authors>ihourglass</Authors>
     <PackageTags>DI IoC DependencyInjection</PackageTags>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>$(SolutionDir)key.snk</AssemblyOriginatorKeyFile>
-    <PackageOutputPath>$(SolutionDir)nugets</PackageOutputPath>
-    <PackageReadmeFile>README_en.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/inversionhourglass/DependencyInjection.StaticAccessor</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/inversionhourglass/DependencyInjection.StaticAccessor.git</RepositoryUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/inversionhourglass/DependencyInjection.StaticAccessor/master/icon.png</PackageIconUrl>
-    <RepositoryType>git</RepositoryType>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(SolutionDir)CHANGELOG.md"))</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
