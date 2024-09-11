@@ -23,11 +23,9 @@ namespace DependencyInjection.StaticAccessor
             object? key = null;
             foreach (DictionaryEntry item in callSiteCache)
             {
-                var pServiceIdentifier = item.Key.GetType().GetProperty("ServiceIdentifier");
-                var serviceIdentifier = pServiceIdentifier.GetValue(item.Key);
-                var pServiceType = serviceIdentifier.GetType().GetProperty("ServiceType");
-                var serviceType = (Type)pServiceType.GetValue(serviceIdentifier);
-                if (serviceType == typeof(IServiceScopeFactory))
+                var pType = item.Key.GetType().GetProperty("Type");
+                var type = (Type)pType.GetValue(item.Key);
+                if (type == typeof(IServiceScopeFactory))
                 {
                     key = item.Key;
                     break;
