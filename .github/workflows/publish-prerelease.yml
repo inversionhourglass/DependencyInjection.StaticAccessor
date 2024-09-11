@@ -1,0 +1,114 @@
+name: Publish Prerelease NuGets
+on:
+  push:
+    branches:
+      - pre/*
+env:
+  TIMESTAMP: $(date +'%s')
+  SOLUTION: DependencyInjection.StaticAccessor.sln
+jobs:
+  publish:
+    name: Build and Publish
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3.0.3
+        with:
+          dotnet-version: |
+            3.1.x
+            5.0.x
+            6.0.x
+            7.0.x
+            8.0.x
+
+      - name: Remove Tests
+        run: dotnet sln ${{ env.SOLUTION }} remove (ls -r test/**/*.csproj)
+
+      - name: Restore NuGets
+        run: dotnet restore ${{ env.SOLUTION }}
+
+      - name: Abstractions Version Setup
+        run: |
+          function Gallery-Version {
+            param (
+              [string]$packageName
+            )
+
+            # 从nuget.org获取最新版本号
+            $pattern = "^> $packageName \| (\S+) "
+            $packages = nuget search $packageName -PreRelease
+            foreach ($pkg in $packages) {
+              if ($pkg -match $pattern) {
+                $latestVersion = $matches[1]
+              }
+            }
+            if ($latestVersion -eq $null) {
+              $packages = nuget search $packageName
+              foreach ($pkg in $packages) {
+                if ($pkg -match $pattern) {
+                  $latestVersion = $matches[1]
+                }
+              }
+            }
+            if ($latestVersion -eq $null) {
+              throw "Cannot get the latest version of $packageName from nuget.org"
+            }
+            echo "The latest version of $packageName is $latestVersion"
+
+            # 修改项目文件版本号
+            $xmlPath = "src/$packageName/$packageName.csproj"
+            [xml]$xmlDoc = Get-Content $xmlPath
+            $propertyGroup = $xmlDoc.Project.PropertyGroup
+            $versionPrefixNode = $propertyGroup.SelectSingleNode("VersionPrefix")
+            $newVersionNode = $xmlDoc.CreateElement("Version")
+            $newVersionNode.InnerText = $latestVersion
+            $propertyGroup.RemoveChild($versionPrefixNode)
+            $propertyGroup.AppendChild($newVersionNode)
+            $xmlDoc.Save($xmlPath)
+          }
+
+          $branchName = "${{ github.ref_name }}"
+          if ($branchName -ne "pre/basic") {
+            Gallery-Version -packageName "DependencyInjection.StaticAccessor"
+          }
+          if ($branchName -ne "pre/hosting") {
+            Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+          }
+        
+      - name: Build Solution
+        run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }} --version-suffix preview-${{ env.TIMESTAMP }}
+
+      - name: Delete exists packages
+        run: Remove-Item -Path nugets -Recurse -Force -ErrorAction SilentlyContinue
+
+      - name: Pack Solution
+        run: dotnet pack ${{ env.SOLUTION }} --configuration Release --no-build --version-suffix preview-${{ env.TIMESTAMP }}
+
+      - name: Publish
+        run: |
+          $branchName = "${{ github.ref_name }}"
+
+          if ($branchName -eq "pre/wasm") {
+            $pkgs = @("DependencyInjection.StaticAccessor.Blazor.WebAssembly")
+          }
+          
+          if ($branchName -eq "pre/blazor") {
+            $pkgs = @("DependencyInjection.StaticAccessor.Blazor")
+          }
+          
+          if ($branchName -eq "pre/hosting") {
+            $pkgs = @("DependencyInjection.StaticAccessor.Hosting", "DependencyInjection.StaticAccessor.Blazor")
+          }
+
+          if ($branchName -eq "pre/basic") {
+            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting", "DependencyInjection.StaticAccessor.Blazor", "DependencyInjection.StaticAccessor.Blazor.WebAssembly")
+          }
+
+          foreach ($pkg in $pkgs) {
+            $p = ($pkg -replace "\.", "\.") + "\.\d+\.\d+\.\d+-preview-\d+\.nupkg"
+            $nupkg = Get-ChildItem -Path nugets | Where-Object { $_.Name -match $p }
+            dotnet nuget push $nupkg.FullName -k ${{ secrets.API_KEY }} -s https://api.nuget.org/v3/index.json
+          }
