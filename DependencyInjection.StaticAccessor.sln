@@ -29,14 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaticAccessor.Tests", "tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiHost", "test\TestAssemblies\WebApiHost\WebApiHost.csproj", "{384DA1C2-A8D7-4959-BBA5-B87936238830}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.StaticAccessor.Blazor", "src\DependencyInjection.StaticAccessor.Blazor\DependencyInjection.StaticAccessor.Blazor.csproj", "{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.StaticAccessor.Blazor.WebAssembly", "src\DependencyInjection.StaticAccessor.Blazor.WebAssembly\DependencyInjection.StaticAccessor.Blazor.WebAssembly.csproj", "{E0821748-4799-4E61-B659-2B242E48A1A8}"
-EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DependencyInjection.StaticAccessor.Blazor.Shared", "src\DependencyInjection.StaticAccessor.Blazor.Shared\DependencyInjection.StaticAccessor.Blazor.Shared.shproj", "{899A7400-738E-49AB-A046-582692B6B640}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerApp", "test\TestAssemblies\BlazorServerApp\BlazorServerApp.csproj", "{95109D07-EF0A-4A0E-B928-C7A42199373A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,18 +59,6 @@ Global
 		{384DA1C2-A8D7-4959-BBA5-B87936238830}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{384DA1C2-A8D7-4959-BBA5-B87936238830}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{384DA1C2-A8D7-4959-BBA5-B87936238830}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E0821748-4799-4E61-B659-2B242E48A1A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E0821748-4799-4E61-B659-2B242E48A1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E0821748-4799-4E61-B659-2B242E48A1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E0821748-4799-4E61-B659-2B242E48A1A8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,17 +71,8 @@ Global
 		{54FCA6AA-E886-431C-9BA4-E456B2749069} = {2911DB71-33F1-499F-9D2A-53E3794D58F4}
 		{9FBFBACF-C99D-4C06-B182-682F92DB1B5A} = {A8F6DC35-BD39-4426-833A-A7461A0F10A9}
 		{384DA1C2-A8D7-4959-BBA5-B87936238830} = {2911DB71-33F1-499F-9D2A-53E3794D58F4}
-		{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
-		{E0821748-4799-4E61-B659-2B242E48A1A8} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
-		{899A7400-738E-49AB-A046-582692B6B640} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
-		{95109D07-EF0A-4A0E-B928-C7A42199373A} = {2911DB71-33F1-499F-9D2A-53E3794D58F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12E30C92-0641-41CA-B835-ED3595378DD6}
-	EndGlobalSection
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		src\DependencyInjection.StaticAccessor.Blazor.Shared\DependencyInjection.StaticAccessor.Blazor.Shared.projitems*{3007dbf3-b92a-4983-a6e5-7d8009e4bda2}*SharedItemsImports = 5
-		src\DependencyInjection.StaticAccessor.Blazor.Shared\DependencyInjection.StaticAccessor.Blazor.Shared.projitems*{899a7400-738e-49ab-a046-582692b6b640}*SharedItemsImports = 13
-		src\DependencyInjection.StaticAccessor.Blazor.Shared\DependencyInjection.StaticAccessor.Blazor.Shared.projitems*{e0821748-4799-4e61-b659-2b242e48a1a8}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal
