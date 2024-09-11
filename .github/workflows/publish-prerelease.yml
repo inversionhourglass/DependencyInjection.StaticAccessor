@@ -73,9 +73,10 @@ jobs:
           $branchName = "${{ github.ref_name }}"
           if ($branchName -ne "pre/basic") {
             Gallery-Version -packageName "DependencyInjection.StaticAccessor"
-          }
-          if ($branchName -ne "pre/hosting") {
-            Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+          
+            if ($branchName -ne "pre/hosting") {
+              Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+            }
           }
         
       - name: Build Solution

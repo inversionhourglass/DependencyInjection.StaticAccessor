@@ -61,11 +61,12 @@ jobs:
           }
           
           $tagName = "${{ github.ref_name }}"
-          if ($tagName -ne "basic-") {
+          if ($tagName -notlike "basic-*") {
             Gallery-Version -packageName "DependencyInjection.StaticAccessor"
-          }
-          if ($tagName -ne "hosting-") {
-            Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+          
+            if ($tagName -notlike "hosting-*") {
+              Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+            }
           }
 
       - name: Build Solution
