@@ -10,20 +10,20 @@ namespace GenericHost
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             list.Add((serviceProvider, PinnedScope.RootServices));
-            list.Add((serviceProvider, PinnedScope.Services));
+            list.Add((serviceProvider, PinnedScope.ScopedServices));
 
             using (var outerScope = serviceProvider.CreateScope())
             {
-                list.Add((outerScope.ServiceProvider, PinnedScope.Services));
+                list.Add((outerScope.ServiceProvider, PinnedScope.ScopedServices));
 
                 using (var innerScope1 = outerScope.ServiceProvider.CreateScope())
                 {
-                    list.Add((innerScope1.ServiceProvider, PinnedScope.Services));
+                    list.Add((innerScope1.ServiceProvider, PinnedScope.ScopedServices));
                 }
 
                 using (var innerScope2 = outerScope.ServiceProvider.CreateScope())
                 {
-                    list.Add((innerScope2.ServiceProvider, PinnedScope.Services));
+                    list.Add((innerScope2.ServiceProvider, PinnedScope.ScopedServices));
                 }
 
                 var locker1 = new EventWaitHandle(false, EventResetMode.ManualReset);
@@ -32,14 +32,14 @@ namespace GenericHost
                 {
                     locker1.WaitOne();
                     Console.WriteLine(2);
-                    list.Add((outerScope.ServiceProvider, PinnedScope.Services));
+                    list.Add((outerScope.ServiceProvider, PinnedScope.ScopedServices));
                     locker2.Set();
                 });
                 var t2 = Task.Run(() =>
                 {
                     using (var pScope = outerScope.ServiceProvider.CreateScope())
                     {
-                        list.Add((pScope.ServiceProvider, PinnedScope.Services));
+                        list.Add((pScope.ServiceProvider, PinnedScope.ScopedServices));
                         Console.WriteLine(1);
                         locker1.Set();
                         locker2.WaitOne();

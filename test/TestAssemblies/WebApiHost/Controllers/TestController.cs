@@ -17,21 +17,21 @@ namespace WebApiHost.Controllers
         {
             list.Clear();
 
-            list.Add((accessor.HttpContext?.RequestServices, PinnedScope.Services));
-            list.Add((serviceProvider, PinnedScope.Services));
+            list.Add((accessor.HttpContext?.RequestServices, PinnedScope.ScopedServices));
+            list.Add((serviceProvider, PinnedScope.ScopedServices));
 
             using (var outerScope = serviceProvider.CreateScope())
             {
-                list.Add((outerScope.ServiceProvider, PinnedScope.Services));
+                list.Add((outerScope.ServiceProvider, PinnedScope.ScopedServices));
 
                 using (var innerScope1 = outerScope.ServiceProvider.CreateScope())
                 {
-                    list.Add((innerScope1.ServiceProvider, PinnedScope.Services));
+                    list.Add((innerScope1.ServiceProvider, PinnedScope.ScopedServices));
                 }
 
                 using (var innerScope2 = outerScope.ServiceProvider.CreateScope())
                 {
-                    list.Add((innerScope2.ServiceProvider, PinnedScope.Services));
+                    list.Add((innerScope2.ServiceProvider, PinnedScope.ScopedServices));
                 }
             }
 
