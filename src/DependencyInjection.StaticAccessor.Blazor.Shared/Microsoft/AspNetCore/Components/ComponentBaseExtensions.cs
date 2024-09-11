@@ -10,7 +10,7 @@ namespace Microsoft.AspNetCore.Components
     /// </summary>
     public static class ComponentBaseExtensions
     {
-        private static readonly ConcurrentDictionary<Type, Func<EventCallbackWorkItem, object?, Task>> _Cache = [];
+        private static readonly ConcurrentDictionary<Type, Func<ComponentBase, EventCallbackWorkItem, object?, Task>> _Cache = [];
 
         /// <summary>
         /// Save the <see cref="IServiceProvider"/> before executing the callback.
@@ -28,9 +28,9 @@ namespace Microsoft.AspNetCore.Components
             var mHandleEventAsync = componentType.GetMethod("Microsoft.AspNetCore.Components.IHandleEvent.HandleEventAsync", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
             PinnedScope.Scope = new FoolScope(component.ServiceProvider);
 
-            var func = _Cache.GetOrAdd(mHandleEventAsync.DeclaringType!, t => mHandleEventAsync.CreateDelegate<Func<EventCallbackWorkItem, object?, Task>>());
+            var func = _Cache.GetOrAdd(mHandleEventAsync.DeclaringType!, t => mHandleEventAsync.CreateDelegate<Func<ComponentBase, EventCallbackWorkItem, object?, Task>>());
 
-            return func(callback, arg);
+            return func(component, callback, arg);
         }
     }
 }
