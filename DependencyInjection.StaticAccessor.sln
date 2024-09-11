@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_SolutionItems", "_SolutionItems", "{3A216A38-4A73-4FC3-B275-5A13F1ECA61F}"
 	ProjectSection(SolutionItems) = preProject
 		CHANGELOG.md = CHANGELOG.md
+		common.props = common.props
 		README.md = README.md
 		README_en.md = README_en.md
 	EndProjectSection
@@ -33,6 +34,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DependencyInjection.StaticAccessor.Blazor.WebAssembly", "src\DependencyInjection.StaticAccessor.Blazor.WebAssembly\DependencyInjection.StaticAccessor.Blazor.WebAssembly.csproj", "{E0821748-4799-4E61-B659-2B242E48A1A8}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "DependencyInjection.StaticAccessor.Blazor.Shared", "src\DependencyInjection.StaticAccessor.Blazor.Shared\DependencyInjection.StaticAccessor.Blazor.Shared.shproj", "{899A7400-738E-49AB-A046-582692B6B640}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerApp", "test\TestAssemblies\BlazorServerApp\BlazorServerApp.csproj", "{95109D07-EF0A-4A0E-B928-C7A42199373A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +75,10 @@ Global
 		{E0821748-4799-4E61-B659-2B242E48A1A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0821748-4799-4E61-B659-2B242E48A1A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0821748-4799-4E61-B659-2B242E48A1A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95109D07-EF0A-4A0E-B928-C7A42199373A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +94,7 @@ Global
 		{3007DBF3-B92A-4983-A6E5-7D8009E4BDA2} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
 		{E0821748-4799-4E61-B659-2B242E48A1A8} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
 		{899A7400-738E-49AB-A046-582692B6B640} = {5F3E6B29-8A88-4F5A-BF43-8A2D4117A494}
+		{95109D07-EF0A-4A0E-B928-C7A42199373A} = {2911DB71-33F1-499F-9D2A-53E3794D58F4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12E30C92-0641-41CA-B835-ED3595378DD6}
