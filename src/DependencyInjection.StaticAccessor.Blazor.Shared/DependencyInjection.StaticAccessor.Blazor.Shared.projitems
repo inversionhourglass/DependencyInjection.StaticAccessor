@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>899a7400-738e-49ab-a046-582692b6b640</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>DependencyInjection.StaticAccessor.Blazor.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\StaticAccessor\Blazor\IServiceProviderHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\StaticAccessor\Blazor\PinnedScopeComponentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\StaticAccessor\Blazor\PinnedScopeLayoutComponentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DependencyInjection\StaticAccessor\Blazor\PinnedScopeOwningComponentBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Microsoft\AspNetCore\Components\ComponentBaseExtensions.cs" />
+  </ItemGroup>
+</Project>
