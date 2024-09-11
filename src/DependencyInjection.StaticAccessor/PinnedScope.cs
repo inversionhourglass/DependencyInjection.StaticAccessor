@@ -27,6 +27,10 @@ namespace DependencyInjection.StaticAccessor
         /// </summary>
         public IServiceProvider ServiceProvider => _scope.ServiceProvider;
 
+        internal static List<IScopeProvider> ScopeProviders { get; } = [];
+
+        internal static List<IScopeGuarder> ScopeGuarders { get; } = [];
+
         /// <summary>
         /// Get current scope. Return null if not within a scope.
         /// </summary>
@@ -34,9 +38,27 @@ namespace DependencyInjection.StaticAccessor
         {
             get
             {
-                return _Scope.Value?.Current;
+                if (ScopeProviders.Count != 0)
+                {
+                    foreach (var provider in ScopeProviders)
+                    {
+                        if (provider.Scope != null) return provider.Scope;
+                    }
+                }
+
+                if (_Scope.Value != null) return _Scope.Value.Current;
+
+                if (ScopeGuarders.Count != 0)
+                {
+                    foreach (var guarder in ScopeGuarders)
+                    {
+                        if (guarder.Scope != null) return guarder.Scope;
+                    }
+                }
+
+                return null;
             }
-            internal set
+            set
             {
                 var scope = _Scope.Value;
 
@@ -45,7 +67,7 @@ namespace DependencyInjection.StaticAccessor
                     if (scope == null) return;
                     _Scope.Value = scope.Parent;
                 }
-                else
+                else if (scope?.Current != value)
                 {
                     _Scope.Value = new(value, scope);
                 }
@@ -55,7 +77,7 @@ namespace DependencyInjection.StaticAccessor
         /// <summary>
         /// Get the <see cref="IServiceProvider"/> of the current scope, or the root <see cref="IServiceProvider"/> if not within a scope, or null if you have not set up the <see cref="PinnedServiceScopeFactory"/>.
         /// </summary>
-        public static IServiceProvider? Services => Scope?.ServiceProvider ?? RootServices;
+        public static IServiceProvider? ScopedServices => Scope?.ServiceProvider ?? RootServices;
 
         /// <summary>
         /// Get the root <see cref="IServiceProvider"/>

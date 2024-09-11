@@ -36,6 +36,9 @@ namespace DependencyInjection.StaticAccessor
                 after.Handle(provider);
             }
 
+            PinnedScope.ScopeProviders.AddRange(provider.GetServices<IScopeProvider>());
+            PinnedScope.ScopeGuarders.AddRange(provider.GetServices<IScopeGuarder>());
+
             return provider;
         }
     }
