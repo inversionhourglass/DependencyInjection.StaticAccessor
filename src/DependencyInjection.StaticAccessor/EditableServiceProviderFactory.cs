@@ -37,7 +37,7 @@ namespace DependencyInjection.StaticAccessor
             }
 
             PinnedScope.ScopeProviders.AddRange(provider.GetServices<IScopeProvider>());
-            PinnedScope.ScopeGuarders.AddRange(provider.GetServices<IScopeGuarder>());
+            PinnedScope.ScopeGoalies.AddRange(provider.GetServices<IScopeGoalie>());
 
             return provider;
         }
