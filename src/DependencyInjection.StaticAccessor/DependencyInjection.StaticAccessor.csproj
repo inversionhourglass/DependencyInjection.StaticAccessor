@@ -5,6 +5,7 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <VersionPrefix>8.0.0</VersionPrefix>
     <PackageTags>DI IoC DependencyInjection</PackageTags>
+	<Description>Provide a static property PinnedScope.ScopedServices that allows you to get the IServiceProvider instance within the current scope from anywhere.</Description>
   </PropertyGroup>
 
   <ItemGroup>
