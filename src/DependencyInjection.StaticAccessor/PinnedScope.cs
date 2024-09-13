@@ -29,7 +29,7 @@ namespace DependencyInjection.StaticAccessor
 
         internal static List<IScopeProvider> ScopeProviders { get; } = [];
 
-        internal static List<IScopeGuarder> ScopeGuarders { get; } = [];
+        internal static List<IScopeGoalie> ScopeGoalies { get; } = [];
 
         /// <summary>
         /// Get current scope. Return null if not within a scope.
@@ -48,11 +48,11 @@ namespace DependencyInjection.StaticAccessor
 
                 if (_Scope.Value != null) return _Scope.Value.Current;
 
-                if (ScopeGuarders.Count != 0)
+                if (ScopeGoalies.Count != 0)
                 {
-                    foreach (var guarder in ScopeGuarders)
+                    foreach (var goalie in ScopeGoalies)
                     {
-                        if (guarder.Scope != null) return guarder.Scope;
+                        if (goalie.Scope != null) return goalie.Scope;
                     }
                 }
 
