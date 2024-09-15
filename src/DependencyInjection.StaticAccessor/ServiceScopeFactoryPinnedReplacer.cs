@@ -16,6 +16,7 @@ namespace DependencyInjection.StaticAccessor
         public void Handle(IServiceProvider serviceProvider)
         {
             var tProvider = serviceProvider.GetType();
+            VersionCheck(tProvider.Assembly.GetName().Version);
             var fEngine = tProvider.GetField("_engine", BindingFlags.NonPublic | BindingFlags.Instance);
             var engine = fEngine.GetValue(serviceProvider);
             var tEngine = engine.GetType();
@@ -49,6 +50,14 @@ namespace DependencyInjection.StaticAccessor
             var engineScope = (IServiceProvider)pRoot.GetValue(engine);
 
             PinnedScope.RootServices = engineScope;
+        }
+
+        private void VersionCheck(Version version)
+        {
+            var minVersion = new Version(3, 1, 0);
+            var maxVersion = new Version(4, 0, 0);
+
+            if (version < minVersion || version >= maxVersion) throw new NotSupportedException($"The version of Microsoft.Extensions.DependencyInjection is {version}, which is out of the allowed range [{minVersion}, {maxVersion}).");
         }
     }
 }
