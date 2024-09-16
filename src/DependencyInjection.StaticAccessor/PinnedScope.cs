@@ -27,7 +27,7 @@ namespace DependencyInjection.StaticAccessor
         /// </summary>
         public IServiceProvider ServiceProvider => _scope.ServiceProvider;
 
-        internal static List<IScopeProvider> ScopeProviders { get; } = [];
+        internal static List<IScopeForward> ScopeForwards { get; } = [];
 
         internal static List<IScopeGoalie> ScopeGoalies { get; } = [];
 
@@ -38,9 +38,9 @@ namespace DependencyInjection.StaticAccessor
         {
             get
             {
-                if (ScopeProviders.Count != 0)
+                if (ScopeForwards.Count != 0)
                 {
-                    foreach (var provider in ScopeProviders)
+                    foreach (var provider in ScopeForwards)
                     {
                         if (provider.Scope != null) return provider.Scope;
                     }

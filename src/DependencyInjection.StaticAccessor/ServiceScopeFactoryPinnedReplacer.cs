@@ -16,6 +16,7 @@ namespace DependencyInjection.StaticAccessor
         public void Handle(IServiceProvider serviceProvider)
         {
             var tProvider = serviceProvider.GetType();
+            VersionCheck(tProvider.Assembly.GetName().Version);
             var pCallSiteFactory = tProvider.GetProperty("CallSiteFactory", BindingFlags.NonPublic | BindingFlags.Instance);
             var callSiteFactory = pCallSiteFactory.GetValue(serviceProvider);
             var fCallSiteCache = callSiteFactory.GetType().GetField("_callSiteCache", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -50,6 +51,14 @@ namespace DependencyInjection.StaticAccessor
             var engineScope = (IServiceProvider)pRoot.GetValue(serviceProvider);
 
             PinnedScope.RootServices = engineScope;
+        }
+
+        private void VersionCheck(Version version)
+        {
+            var minVersion = new Version(6, 0, 0);
+            var maxVersion = new Version(7, 0, 0);
+
+            if (version < minVersion || version >= maxVersion) throw new NotSupportedException($"The version of Microsoft.Extensions.DependencyInjection is {version}, which is out of the allowed range [{minVersion}, {maxVersion}).");
         }
     }
 }
