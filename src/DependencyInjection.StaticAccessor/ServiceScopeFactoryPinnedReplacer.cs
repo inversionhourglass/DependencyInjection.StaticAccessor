@@ -64,8 +64,8 @@ namespace DependencyInjection.StaticAccessor
 
         private void VersionCheck(Version version)
         {
-            var minVersion = new Version(7, 0, 0);
-            var maxVersion = new Version(8, 0, 0);
+            var minVersion = new Version(8, 0, 0);
+            var maxVersion = new Version(9, 0, 0);
 
             if (version < minVersion || version >= maxVersion) throw new NotSupportedException($"The version of Microsoft.Extensions.DependencyInjection is {version}, which is out of the allowed range [{minVersion}, {maxVersion}).");
         }
