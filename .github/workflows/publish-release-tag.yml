@@ -28,47 +28,6 @@ jobs:
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
 
-      - name: Abstractions Version Setup
-        run: |
-          function Gallery-Version {
-            param (
-              [string]$packageName
-            )
-
-            # 从nuget.org获取最新版本号
-            $pattern = "^> $packageName \| (\S+) "
-            $packages = nuget search $packageName
-            foreach ($pkg in $packages) {
-              if ($pkg -match $pattern) {
-                $latestVersion = $matches[1]
-              }
-            }
-            if ($latestVersion -eq $null) {
-              throw "Cannot get the latest version of $packageName from nuget.org"
-            }
-            echo "The latest version of $packageName is $latestVersion"
-
-            # 修改项目文件版本号
-            $xmlPath = "src/$packageName/$packageName.csproj"
-            [xml]$xmlDoc = Get-Content $xmlPath
-            $propertyGroup = $xmlDoc.Project.PropertyGroup
-            $versionPrefixNode = $propertyGroup.SelectSingleNode("VersionPrefix")
-            $newVersionNode = $xmlDoc.CreateElement("Version")
-            $newVersionNode.InnerText = $latestVersion
-            $propertyGroup.RemoveChild($versionPrefixNode)
-            $propertyGroup.AppendChild($newVersionNode)
-            $xmlDoc.Save($xmlPath)
-          }
-          
-          $tagName = "${{ github.ref_name }}"
-          if ($tagName -notlike "basic-*") {
-            Gallery-Version -packageName "DependencyInjection.StaticAccessor"
-          
-            if ($tagName -notlike "hosting-*") {
-              Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
-            }
-          }
-
       - name: Build Solution
         run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
 
@@ -87,18 +46,12 @@ jobs:
 
           if ($tagName -like "wasm-*") {
             $pkgs = @("DependencyInjection.StaticAccessor.Blazor.WebAssembly")
-          }
-          
-          if ($tagName -like "blazor-*") {
+          } elseif ($tagName -like "blazor-*") {
             $pkgs = @("DependencyInjection.StaticAccessor.Blazor")
-          }
-          
-          if ($tagName -like "hosting-*") {
+          } elseif ($tagName -like "hosting-*") {
             $pkgs = @("DependencyInjection.StaticAccessor.Hosting")
-          }
-
-          if ($tagName -like "basic-*") {
-            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting")
+          } elseif ($tagName -like "basic-*") {
+            $pkgs = @("DependencyInjection.StaticAccessor")
           }
 
           foreach ($pkg in $pkgs) {
