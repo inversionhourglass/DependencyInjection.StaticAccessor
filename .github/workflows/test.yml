@@ -55,4 +55,4 @@ jobs:
         run: dotnet restore ${{ env.SOLUTION }}
         
       - name: Test in RELEASE with netcoreapp3.1
-        run: dotnet test --configuration Release ${{ env.SOLUTION }}
+        run: dotnet test --configuration Release --framework netcoreapp3.1 ${{ env.SOLUTION }}
