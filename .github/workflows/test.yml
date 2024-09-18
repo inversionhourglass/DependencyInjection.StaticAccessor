@@ -27,11 +27,8 @@ jobs:
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
         
-      - name: Build Solution in RELEASE
-        run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
-        
       - name: Test in RELEASE
-        run: dotnet test --configuration Release --no-build ${{ env.SOLUTION }}
+        run: dotnet test --configuration Release ${{ env.SOLUTION }}
         
   linux:
     name: Linux
@@ -49,8 +46,5 @@ jobs:
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
         
-      - name: Build Solution in RELEASE
-        run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
-        
       - name: Test in RELEASE with netcoreapp3.1
-        run: dotnet test --configuration Release --no-build --framework netcoreapp3.1 ${{ env.SOLUTION }}
+        run: dotnet test --configuration Release ${{ env.SOLUTION }}
