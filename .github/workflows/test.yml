@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - legacy/*
     paths:
       - 'src/**'
       - 'test/**'
