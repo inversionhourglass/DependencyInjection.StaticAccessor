@@ -7,7 +7,7 @@ namespace DependencyInjection.StaticAccessor
     /// Just keep the <see cref="IServiceProvider"/> that you gave
     /// </summary>
     /// <param name="provider"></param>
-    public class FoolScope(IServiceProvider provider) : IServiceScope
+    public readonly struct FoolScope(IServiceProvider provider) : IServiceScope
     {
         /// <summary>
         /// The <see cref="IServiceProvider"/> that you gave

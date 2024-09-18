@@ -11,7 +11,7 @@
 | DependencyInjection.StaticAccessor.Hosting            | 用于AspNetCore项目（WebApi、Mvc等）及通用主机（Generic Host）     |
 | DependencyInjection.StaticAccessor.Blazor             | 用于Blazor项目，Blazor Server和Blazor WebAssembly Server都用这个 |
 | DependencyInjection.StaticAccessor.Blazor.WebAssembly | 用于Blazor WebAssembly Client项目，同样支持Auto模式Client项目     |
-| DependencyInjection.StaticAccessor                    | 基础类库，一般不直接引用                                         |
+| DependencyInjection.StaticAccessor                    | 基础类库，使用PinnedScope的非启动项目引用该类库                     |
 
 ### 版本号说明
 

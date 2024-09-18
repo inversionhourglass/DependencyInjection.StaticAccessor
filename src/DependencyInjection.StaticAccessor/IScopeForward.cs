@@ -1,11 +1,10 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace DependencyInjection.StaticAccessor
 {
     /// <summary>
-    /// Preferentially obtain the <see cref="IServiceScope"/> from the <see cref="IServiceProvider"/>s,
-    /// return the default <see cref="IServiceScope"/> if all <see cref="IScopeProvider.Scope"/> instances return null.
+    /// Preferentially obtain the <see cref="IServiceScope"/> from the <see cref="IScopeForward"/>s,
+    /// return the default <see cref="IServiceScope"/> if all the instances return null.
     /// </summary>
     public interface IScopeForward : IScopeProvider
     {
