@@ -66,6 +66,10 @@ jobs:
 
             if ($tagName -notlike "hosting-*") {
               Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+              
+              if ($tagName -notlike "blazor-*") {
+                Gallery-Version -packageName "DependencyInjection.StaticAccessor.Blazor"
+              }
             }
           }
 
@@ -87,18 +91,12 @@ jobs:
 
           if ($tagName -like "wasm-*") {
             $pkgs = @("DependencyInjection.StaticAccessor.Blazor.WebAssembly")
-          }
-          
-          if ($tagName -like "blazor-*") {
+          } elseif ($tagName -like "blazor-*") {
             $pkgs = @("DependencyInjection.StaticAccessor.Blazor")
-          }
-          
-          if ($tagName -like "hosting-*") {
+          } elseif ($tagName -like "hosting-*") {
             $pkgs = @("DependencyInjection.StaticAccessor.Hosting")
-          }
-
-          if ($tagName -like "basic-*") {
-            $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting")
+          } elseif ($tagName -like "basic-*") {
+            $pkgs = @("DependencyInjection.StaticAccessor")
           }
 
           foreach ($pkg in $pkgs) {

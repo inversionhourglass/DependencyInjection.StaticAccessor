@@ -76,6 +76,10 @@ jobs:
 
             if ($branchName -ne "pre/hosting") {
               Gallery-Version -packageName "DependencyInjection.StaticAccessor.Hosting"
+              
+              if ($branchName -ne "pre/blazor") {
+                Gallery-Version -packageName "DependencyInjection.StaticAccessor.Blazor"
+              }
             }
           }
         
@@ -94,17 +98,11 @@ jobs:
 
           if ($branchName -eq "pre/wasm") {
             $pkgs = @("DependencyInjection.StaticAccessor.Blazor.WebAssembly")
-          }
-          
-          if ($branchName -eq "pre/blazor") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Blazor")
-          }
-          
-          if ($branchName -eq "pre/hosting") {
+          } elseif ($branchName -eq "pre/blazor") {
+            $pkgs = @("DependencyInjection.StaticAccessor.Blazor", "DependencyInjection.StaticAccessor.Blazor.WebAssembly")
+          } elseif ($branchName -eq "pre/hosting") {
             $pkgs = @("DependencyInjection.StaticAccessor.Hosting")
-          }
-
-          if ($branchName -eq "pre/basic") {
+          } elseif ($branchName -eq "pre/basic") {
             $pkgs = @("DependencyInjection.StaticAccessor", "DependencyInjection.StaticAccessor.Hosting")
           }
 
