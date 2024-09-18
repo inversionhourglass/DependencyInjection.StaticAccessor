@@ -92,12 +92,8 @@ jobs:
         run: |
           $branchName = "${{ github.ref_name }}"
 
-          if ($branchName -eq "pre/wasm") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Blazor.WebAssembly")
-          }
-          
           if ($branchName -eq "pre/blazor") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Blazor")
+            $pkgs = @("DependencyInjection.StaticAccessor.Blazor", "DependencyInjection.StaticAccessor.Blazor.WebAssembly")
           }
           
           if ($branchName -eq "pre/hosting") {

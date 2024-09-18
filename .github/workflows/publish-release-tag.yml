@@ -85,12 +85,8 @@ jobs:
         run: |
           $tagName = "${{ github.ref_name }}"
 
-          if ($tagName -like "wasm-*") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Blazor.WebAssembly")
-          }
-          
           if ($tagName -like "blazor-*") {
-            $pkgs = @("DependencyInjection.StaticAccessor.Blazor")
+            $pkgs = @("DependencyInjection.StaticAccessor.Blazor", "DependencyInjection.StaticAccessor.Blazor.WebAssembly")
           }
           
           if ($tagName -like "hosting-*") {
