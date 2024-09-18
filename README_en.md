@@ -11,7 +11,7 @@
 | DependencyInjection.StaticAccessor.Hosting            | For AspNetCore projects (WebApi, Mvc, etc.) and Generic Host                        |
 | DependencyInjection.StaticAccessor.Blazor             | For Blazor projects, including Blazor Server and Blazor WebAssembly Server          |
 | DependencyInjection.StaticAccessor.Blazor.WebAssembly | For Blazor WebAssembly Client projects, also supports Auto mode for Client projects |
-| DependencyInjection.StaticAccessor                    | Base library, usually not referenced directly                                       |
+| DependencyInjection.StaticAccessor                    | Base library, A non-startup project using PinnedScope references the package        |
 
 ### Version Number Explanation
 
