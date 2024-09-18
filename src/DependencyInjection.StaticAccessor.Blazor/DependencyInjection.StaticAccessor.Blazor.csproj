@@ -6,6 +6,7 @@
     <VersionPrefix>8.0.0</VersionPrefix>
 	<RootNamespace />
     <PackageTags>DI IoC DependencyInjection Blazor</PackageTags>
+	<Description>This is for the Blazor server-side project and provides a setup method to ensure that you can use the static property PinnedScope.ScopedServices.</Description>
   </PropertyGroup>
 
   <ItemGroup>
