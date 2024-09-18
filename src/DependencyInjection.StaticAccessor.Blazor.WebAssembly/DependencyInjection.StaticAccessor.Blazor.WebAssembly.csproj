@@ -13,9 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DependencyInjection.StaticAccessor.Blazor\DependencyInjection.StaticAccessor.Blazor.csproj" />
     <ProjectReference Include="..\DependencyInjection.StaticAccessor\DependencyInjection.StaticAccessor.csproj" />
   </ItemGroup>
-
-  <Import Project="..\DependencyInjection.StaticAccessor.Blazor.Shared\DependencyInjection.StaticAccessor.Blazor.Shared.projitems" Label="Shared" />
 
 </Project>
