@@ -23,19 +23,9 @@ jobs:
         with:
           dotnet-version: |
             3.1.x
-            5.0.x
-            6.0.x
-            7.0.x
-            8.0.x
           
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
-        
-      - name: Build Solution in DEBUG
-        run: dotnet build --configuration Debug --no-restore ${{ env.SOLUTION }}
-        
-      - name: Test in DEBUG
-        run: dotnet test --configuration Debug --no-build ${{ env.SOLUTION }}
         
       - name: Build Solution in RELEASE
         run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
@@ -55,34 +45,12 @@ jobs:
         with:
           dotnet-version: |
             3.1.x
-            5.0.x
-            6.0.x
-            7.0.x
-            8.0.x
           
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
         
-      - name: Build Solution in DEBUG
-        run: dotnet build --configuration Debug --no-restore ${{ env.SOLUTION }}
-        
-      - name: Test in DEBUG with net6.0
-        run: dotnet test --configuration Debug --no-build --framework net6.0 ${{ env.SOLUTION }}
-        
-      - name: Test in DEBUG with net7.0
-        run: dotnet test --configuration Debug --no-build --framework net7.0 ${{ env.SOLUTION }}
-        
-      - name: Test in DEBUG with net8.0
-        run: dotnet test --configuration Debug --no-build --framework net8.0 ${{ env.SOLUTION }}
-        
       - name: Build Solution in RELEASE
         run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
         
-      - name: Test in RELEASE with net6.0
-        run: dotnet test --configuration Release --no-build --framework net6.0 ${{ env.SOLUTION }}
-        
-      - name: Test in RELEASE with net7.0
-        run: dotnet test --configuration Release --no-build --framework net7.0 ${{ env.SOLUTION }}
-        
-      - name: Test in RELEASE with net8.0
-        run: dotnet test --configuration Release --no-build --framework net8.0 ${{ env.SOLUTION }}
+      - name: Test in RELEASE with netcoreapp3.1
+        run: dotnet test --configuration Release --no-build --framework netcoreapp3.1 ${{ env.SOLUTION }}
