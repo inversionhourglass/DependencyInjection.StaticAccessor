@@ -2,15 +2,15 @@
   <Import Project="../../common.props" />
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <VersionPrefix>8.0.0</VersionPrefix>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <VersionPrefix>9.0.0</VersionPrefix>
 	<RootNamespace />
     <PackageTags>DI IoC DependencyInjection Blazor</PackageTags>
 	<Description>This is for the Blazor server-side project and provides a setup method to ensure that you can use the static property PinnedScope.ScopedServices.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components" Version="[8.0.0, 9.0.0)" />
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="[9.0.0, 10.0.0)" />
   </ItemGroup>
 
   <ItemGroup>
