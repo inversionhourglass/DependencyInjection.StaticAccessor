@@ -1,4 +1,4 @@
-﻿#if NET8_0
+﻿#if NET9_0
 using BlazorServerApp.Components.Pages;
 using Bunit;
 using System.Threading.Tasks;

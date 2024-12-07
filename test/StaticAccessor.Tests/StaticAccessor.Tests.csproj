@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;net6.0;net7.0;net8.0;net9.0</TargetFrameworks>
+    <TargetFrameworks>net48;net8.0;net9.0</TargetFrameworks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
 
@@ -12,39 +12,19 @@
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="3.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
   </ItemGroup>
 	
-  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <PackageReference Include="bunit" Version="1.31.3" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net462'">
-    <ProjectReference Include="..\TestAssemblies\GenericHost\GenericHost.csproj" />
+  <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
+    <PackageReference Include="bunit" Version="1.36.0" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
     <ProjectReference Include="..\TestAssemblies\GenericHost\GenericHost.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1'">
-    <ProjectReference Include="..\TestAssemblies\GenericHost\GenericHost.csproj" />
-    <ProjectReference Include="..\TestAssemblies\WebApiHost\WebApiHost.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
-    <ProjectReference Include="..\TestAssemblies\GenericHost\GenericHost.csproj" />
-    <ProjectReference Include="..\TestAssemblies\WebApiHost\WebApiHost.csproj" />
-  </ItemGroup>
-
-  <ItemGroup Condition="'$(TargetFramework)' == 'net7.0'">
-    <ProjectReference Include="..\TestAssemblies\GenericHost\GenericHost.csproj" />
-    <ProjectReference Include="..\TestAssemblies\WebApiHost\WebApiHost.csproj" />
-  </ItemGroup>
-
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-    <ProjectReference Include="..\TestAssemblies\BlazorServerApp\BlazorServerApp.csproj" />
     <ProjectReference Include="..\TestAssemblies\GenericHost\GenericHost.csproj" />
     <ProjectReference Include="..\TestAssemblies\WebApiHost\WebApiHost.csproj" />
   </ItemGroup>
