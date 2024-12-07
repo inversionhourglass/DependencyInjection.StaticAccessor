@@ -17,17 +17,10 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageReleaseNotes>$([System.IO.File]::ReadAllText("$(SolutionDir)CHANGELOG.md"))</PackageReleaseNotes>
+    <PackageReleaseNotes Condition="'$(VersionSuffix)' == ''">For details: https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/releases/tag/v$(VersionPrefix)</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <None Include="..\..\README_en.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 </Project>
