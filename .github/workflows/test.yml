@@ -22,10 +22,6 @@ jobs:
         uses: actions/setup-dotnet@v3.0.3
         with:
           dotnet-version: |
-            3.1.x
-            5.0.x
-            6.0.x
-            7.0.x
             8.0.x
             9.0.x
           
@@ -46,10 +42,6 @@ jobs:
         uses: actions/setup-dotnet@v3.0.3
         with:
           dotnet-version: |
-            3.1.x
-            5.0.x
-            6.0.x
-            7.0.x
             8.0.x
             9.0.x
           
@@ -58,12 +50,6 @@ jobs:
         
       - name: Build Solution in RELEASE
         run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
-        
-      - name: Test in RELEASE with net6.0
-        run: dotnet test --configuration Release --no-build --framework net6.0 ${{ env.SOLUTION }}
-        
-      - name: Test in RELEASE with net7.0
-        run: dotnet test --configuration Release --no-build --framework net7.0 ${{ env.SOLUTION }}
         
       - name: Test in RELEASE with net8.0
         run: dotnet test --configuration Release --no-build --framework net8.0 ${{ env.SOLUTION }}
