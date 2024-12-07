@@ -23,4 +23,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\README_en.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 </Project>
