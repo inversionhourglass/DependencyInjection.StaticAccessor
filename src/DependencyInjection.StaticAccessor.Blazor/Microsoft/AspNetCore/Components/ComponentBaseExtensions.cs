@@ -13,9 +13,9 @@ namespace Microsoft.AspNetCore.Components
         /// <summary>
         /// Save the <see cref="IServiceProvider"/> before executing the callback.
         /// </summary>
-        public static Task PinnedScopeHandleEventAsync<TComponent>(this TComponent component, EventCallbackWorkItem callback, object? arg) where TComponent : ComponentBase, IServiceProviderHolder
+        public static Task PinnedScopeHandleEventAsync<TComponent>(this TComponent component, EventCallbackWorkItem callback, object? arg) where TComponent : ComponentBase, IScopeCreator
         {
-            PinnedScope.Scope = new FoolScope(component.ServiceProvider);
+            PinnedScope.Scope = component.Create();
 
             return HandleEventAsync(component, callback, arg);
         }

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace DependencyInjection.StaticAccessor.Blazor
 {
     /// <summary>
     /// Current scoped service holder
     /// </summary>
-    public interface IServiceProviderHolder
+    public interface IScopeCreator
     {
         /// <summary>
-        /// The <see cref="IServiceProvider"/> within the current scope.
+        /// Create a <see cref="IServiceScope"/>
         /// </summary>
-        IServiceProvider ServiceProvider { get; set; }
+        IServiceScope Create();
     }
 }
