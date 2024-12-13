@@ -101,58 +101,11 @@ Blazor 的特殊 DI Scope 需要所有页面需要继承自`PinnedScopeComponent
 // _Imports.razor
 
 @inherits DependencyInjection.StaticAccessor.Blazor.PinnedScopeComponentBase
-
 ```
 
 除了`PinnedScopeComponentBase`，还提供了`PinnedScopeOwningComponentBase`和`PinnedScopeLayoutComponentBase`，后续会根据需要可能会加入更多类型。
 
-**需要特别说明的是，默认情况下，继承`PinnedScopeOwningComponentBase`后，在该页面的回调方法及后续调用方法中访问`PinnedScope.ScopedServices`，获取到的对象等同于[Inject]获取的`IServiceProvider`，这可能与预期获取到`OwningComponentBase.ScopedServies`不符。为了实现这一预期，在 8.1 及之后的版本中，在初始化调用`UsePinnedScopeServiceProvider`后再调用扩展方法`UseOwningScopedServices`即可。**
-
-```csharp
-// Main
-var builder = WebApplication.CreateBuilder(args);
-
-// ...
-
-builder.Host
-    .UsePinnedScopeServiceProvider()  // 调用该方法完成 PinnedScope 初始化
-    .UseOwningScopedServices();       // 调用该方法后，对于继承 PinnedScopeOwningComponentBase 的页面，在回调方法及后续调用方法中，通过 PinnedScope.ScopedServices 获取到的为 OwningCompoenetBase.Service
-
-var app = builder.Build();
-
-// ...
-
-app.Run();
-
-
-// Test.razor
-@page "/test"
-@using DependencyInjection.StaticAccessor
-@using DependencyInjection.StaticAccessor.Blazor
-@rendermode InteractiveServer
-@inject IServiceProvider serviceProvider
-@inherits PinnedScopeOwningComponentBase
-
-<PageTitle>Test</PageTitle>
-
-<button class="btn btn-primary" @onclick="Call">Click</button>
-
-@code {
-    private void Call()
-    {
-        var equals1 = serviceProvider == PinnedScope.ScopedServices;
-        var equals2 = ScopedServices == PinnedScope.ScopedServices;
-
-        /**
-         * 1. 如果初始化时不调用 UseOwningScopedServices 扩展方法，结果如下
-         *     equals1: true, equals2: false
-         *
-         * 2. 如果初始化时调用 UseOwningScopedServices 扩展方法，结果如下
-         *     equals1: false, equals2: true
-         */
-    }
-}
-```
+**需要特别说明的是，在 8.1 及之后的版本中，默认情况下，继承`PinnedScopeOwningComponentBase`后，在该页面的回调方法及后续调用方法中访问`PinnedScope.ScopedServices`，获取到的对象为`OwningComponentBase.ScopedServies`。这一行为更符合预期，8.0 版本获取到的是与 inject 注入的`IServiceProvider`相同。**
 
 #### 已有自定义ComponentBase基类的解决方案
 
@@ -165,16 +118,16 @@ app.Run();
 2. 你可以修改你的基类，但是你的基类不是直接继承自`ComponentBase`或`OwningCompoenetBase`或`LayoutComponentBase`
 
     修改基类修改实现`IHandleEvent`和`IServiceProviderHolder`接口，参照`PinnedScope`对应基类的实现代码实现接口方法。
-    - [PinnedScopeComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeComponentBase.cs)
-    - [PinnedScopeLayoutComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeLayoutComponentBase.cs)
-    - [PinnedScopeOwningComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeOwningComponentBase.cs)
+    - [PinnedScopeComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeComponentBase.cs)
+    - [PinnedScopeLayoutComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeLayoutComponentBase.cs)
+    - [PinnedScopeOwningComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeOwningComponentBase.cs)
 
 3. 你无法修改你的基类
 
     自定义基类实现当前基类，同时实现`IHandleEvent`和`IServiceProviderHolder`接口，并参照`PinnedScope`对应基类的实现代码实现接口方法。
-    - [PinnedScopeComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeComponentBase.cs)
-    - [PinnedScopeLayoutComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeLayoutComponentBase.cs)
-    - [PinnedScopeOwningComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeOwningComponentBase.cs)
+    - [PinnedScopeComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeComponentBase.cs)
+    - [PinnedScopeLayoutComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeLayoutComponentBase.cs)
+    - [PinnedScopeOwningComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeOwningComponentBase.cs)
 
 ### Blazor WebAssembly Client初始化
 
