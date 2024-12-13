@@ -12,7 +12,7 @@ namespace BlazorServerApp
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
-            builder.Host.UsePinnedScopeServiceProvider();
+            builder.Host.UsePinnedScopeServiceProvider().UseOwningScopedServices();
 
             var app = builder.Build();
 
