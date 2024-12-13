@@ -8,7 +8,7 @@ namespace DependencyInjection.StaticAccessor.Blazor
     /// <summary>
     /// Inherit from <see cref="ComponentBase"/> and automatically set <see cref="PinnedScope.Scope"/>
     /// </summary>
-    public class PinnedScopeComponentBase : ComponentBase, IHandleEvent, IScopeCreator
+    public class PinnedScopeComponentBase : ComponentBase, IHandleEvent, IServiceProviderHolder
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private IServiceProvider _serviceProvider;

@@ -9,7 +9,7 @@ namespace DependencyInjection.StaticAccessor.Blazor
     /// <summary>
     /// Inherit from <see cref="OwningComponentBase"/> and automatically set <see cref="PinnedScope.Scope"/>
     /// </summary>
-    public class PinnedScopeOwningComponentBase : OwningComponentBase, IHandleEvent, IScopeCreator
+    public class PinnedScopeOwningComponentBase : OwningComponentBase, IHandleEvent, IServiceProviderHolder, IDisposable
     {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private IServiceProvider _serviceProvider;
@@ -41,6 +41,11 @@ namespace DependencyInjection.StaticAccessor.Blazor
         Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object? arg)
         {
             return this.PinnedScopeHandleEventAsync(callback, arg);
+        }
+
+        void IDisposable.Dispose()
+        {
+
         }
     }
 }
