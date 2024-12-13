@@ -1,0 +1,32 @@
+﻿@page "/OwningCounter"
+@using DependencyInjection.StaticAccessor
+@using DependencyInjection.StaticAccessor.Blazor
+@rendermode InteractiveServer
+@inject IServiceProvider serviceProvider
+@inherits PinnedScopeOwningComponentBase
+
+<PageTitle>Counter</PageTitle>
+
+<h1>Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<span>@(serviceProvider == PinnedScope.ScopedServices)</span>
+<span>@(ScopedServices == PinnedScope.ScopedServices)</span>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+
+    [Inject]
+    public IServiceProvider Provider { get; set; }
+
+    private void IncrementCount()
+    {
+        Console.WriteLine($"Provider: {Provider.GetHashCode()}");
+        Console.WriteLine($"Scoped: {ScopedServices.GetHashCode()}");
+        currentCount++;
+        Utils.M();
+    }
+}

@@ -15,7 +15,7 @@ namespace Microsoft.AspNetCore.Components
         /// </summary>
         public static Task PinnedScopeHandleEventAsync<TComponent>(this TComponent component, EventCallbackWorkItem callback, object? arg) where TComponent : ComponentBase, IServiceProviderHolder
         {
-            PinnedScope.Scope = new FoolScope(component.ServiceProvider);
+            PinnedScope.Scope = component.Create();
 
             return HandleEventAsync(component, callback, arg);
         }

@@ -1,8 +1,39 @@
 # DependencyInjection.StaticAccessor
 
-[中文](README.md) | English
+[中文](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/master/README.md) | English
 
 `DependencyInjection.StaticAccessor` is dedicated to providing static access to the `IServiceProvider` object corresponding to the current DI Scope for various types of .NET projects. This allows you to easily use `IServiceProvider` in static methods and in types where direct interaction with DI services is not possible.
+
+## Why Do We Need PinnedScope
+
+When working with dependency injection, a common challenge is accessing the IoC/DI container within static methods. There are many solutions to this problem, and the simplest is to save the root container to a static variable during application startup and access it directly afterward:
+
+```csharp
+public static IServiceProvider ServiceProvider;
+
+static void Main(string[] args)
+{
+    var builder = Host.CreateDefaultBuilder();
+
+    var host = builder.Build();
+
+    ServiceProvider = host.Services;
+
+    host.Run();
+}
+```
+
+This approach is straightforward and effective for simple scenarios. However, we know that Microsoft Dependency Injection offers three service lifetimes: `Transient`, `Scoped`, and `Singleton`. Among them, `Scoped` is particularly special. In web development, a `Scoped` service corresponds to the lifetime of a single request. For services registered with the `Scoped` lifetime, we cannot retrieve them directly from the root container; they must be accessed through a scope-specific container. 
+
+For this requirement in web applications, there is an easy solution. Microsoft provides the `IHttpContextAccessor`, which allows us to obtain the current request's `IServiceProvider` via `IHttpContextAccessor.HttpContext.RequestServices` after retrieving the `IHttpContextAccessor` object from the root container.
+
+### Why Is PinnedScope Necessary
+
+Despite the existence of these straightforward solutions, scope management becomes more complex in advanced scenarios. For instance, in web applications, you might need to launch a background thread to complete some asynchronous operations, allowing the request to proceed without waiting for the operation to finish. In such asynchronous operations, DI containers are often required. How can we access the DI container in a static method in this case? Can we continue using the root container or `IHttpContextAccessor`? The answer is no, because by this point, the request may have already been completed, and accessing `IServiceProvider` through `IHttpContextAccessor` will result in an exception, as it may reference a disposed service provider.
+
+In such cases, you usually need to create a new scope specifically for the asynchronous operation. While you can manage these scopes manually, `PinnedScope` offers a simpler alternative.
+
+The above is just one example. In reality, scope management can be even more complicated in scenarios like task scheduling, message subscriptions, and even Microsoft's official Blazor framework. While you could find tailored solutions for each scenario to access the `IServiceProvider`, `PinnedScope` provides a unified and simple approach. With `PinnedScope`, you don't need to worry about how your framework creates and manages scopes—you can always retrieve the correct `IServiceProvider` effortlessly.
 
 ## NuGet Packages Overview
 
@@ -61,58 +92,54 @@ app.Run();
 
 ### Blazor Server-Side Project Initialization
 
-**Note: The Blazor Server-side here includes Server, WebAssembly, and Auto modes of the Server-side project, not just the Server mode specifically.**
+**Note: The Blazor Server-side project discussed here includes Server, WebAssembly, and Auto modes, not just the Server mode specifically.**
 
-Install the NuGet package
-> dotnet add package DependencyInjection.StaticAccessor.Blazor
+#### Install NuGet Package
 
-The initialization process for Blazor Server-side is the same as AspNetCore. Please refer to the [AspNetCore Project Initialization Example](#aspnetcore-project-initialization-example). However, since Blazor's DI scope is different from the conventional one, additional steps are required.
+Run the following command to install the required package:
+```bash
+dotnet add package DependencyInjection.StaticAccessor.Blazor
+```
 
-#### Inherit PinnedScopeComponentBase for Pages
+The initialization process for Blazor Server is similar to that of an AspNetCore project. Refer to the [AspNetCore Project Initialization Example](#aspnetcore项目初始化示例) for detailed instructions. However, since Blazor's DI scope differs from the standard AspNetCore DI scope, additional steps are required.
 
-Due to Blazor's unique DI scope, all pages need to inherit from `PinnedScopeComponentBase`. It is recommended to define this once in `_Imports.razor` so that it applies to all pages.
+#### Pages Inherit from `PinnedScopeComponentBase`
+
+Blazor's unique DI scope requires that all pages inherit from `PinnedScopeComponentBase`. It is recommended to define this inheritance globally in the `_Imports.razor` file so that it applies to all pages.
 
 ```csharp
 // _Imports.razor
 
 @inherits DependencyInjection.StaticAccessor.Blazor.PinnedScopeComponentBase
-
 ```
 
-In addition to `PinnedScopeComponentBase`, `PinnedScopeOwningComponentBase` and `PinnedScopeLayoutComponentBase` are also provided, and more types may be added as needed.
+In addition to `PinnedScopeComponentBase`, the library provides `PinnedScopeOwningComponentBase` and `PinnedScopeLayoutComponentBase`, with the possibility of adding more types as needed in the future.
+
+**It is important to note that starting from version 8.1, by default, after inheriting PinnedScopeOwningComponentBase, the objects accessed via PinnedScope.ScopedServices in the callback methods of the page and subsequent invoked methods will be the same as those in OwningComponentBase.ScopedServices. This behavior is more in line with expectations, whereas in version 8.0, the objects retrieved were identical to those injected via IServiceProvider.**
 
 #### Solution for Existing Custom ComponentBase Base Classes
 
-You might be using a `ComponentBase` base class defined by another package, and since C# does not support multiple inheritance, here is a solution that does not require inheriting from `PinnedScopeComponentBase`.
+If you are already using a custom `ComponentBase` base class provided by another package, C#'s lack of multiple inheritance can pose a challenge. Here are the recommended solutions:
 
-```csharp
-// Assuming your current ComponentBase base class is ThirdPartyComponentBase
+1. If you can modify your base class, and it directly inherits `ComponentBase`, `OwningComponentBase`, or `LayoutComponentBase`
 
-// Define a new base class that inherits from ThirdPartyComponentBase
-public class YourComponentBase : ThirdPartyComponentBase, IHandleEvent, IServiceProviderHolder
-{
-    private IServiceProvider _serviceProvider;
+    Replace the base class with `PinnedScopeComponentBase`, `PinnedScopeOwningComponentBase`, or `PinnedScopeLayoutComponentBase`, depending on your use case.
 
-    [Inject]
-    public IServiceProvider ServiceProvider
-    {
-        get => _serviceProvider;
-        set
-        {
-            PinnedScope.Scope = new FoolScope(value);
-            _serviceProvider = value;
-        }
-    }
+2. If you can modify your base class, but it does not directly inherit from `ComponentBase`, `OwningComponentBase`, or `LayoutComponentBase`
 
-    Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object? arg)
-    {
-        return this.PinnedScopeHandleEventAsync(callback, arg);
-    }
-}
+    Modify your base class to implement the `IHandleEvent` and `IServiceProviderHolder` interfaces. Implement the interface methods based on the corresponding `PinnedScope` base class implementations.
+    
+    - [PinnedScopeComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeComponentBase.cs)
+    - [PinnedScopeLayoutComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeLayoutComponentBase.cs)
+    - [PinnedScopeOwningComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeOwningComponentBase.cs)
 
-// _Imports.razor
-@inherits YourComponentBase
-```
+3. Unable to modify your base class
+
+    Create a new custom base class that inherits from your existing base class, implements the `IHandleEvent` and `IServiceProviderHolder` interfaces and implements the required methods by following the corresponding `PinnedScope` base class implementations.
+    
+    - [PinnedScopeComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeComponentBase.cs)
+    - [PinnedScopeLayoutComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeLayoutComponentBase.cs)
+    - [PinnedScopeOwningComponentBase](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/d08ac948e562df4bf2ec5fcbddb6858f12a18636/src/DependencyInjection.StaticAccessor.Blazor/DependencyInjection/StaticAccessor/Blazor/PinnedScopeOwningComponentBase.cs)
 
 ### Blazor WebAssembly Client Initialization
 

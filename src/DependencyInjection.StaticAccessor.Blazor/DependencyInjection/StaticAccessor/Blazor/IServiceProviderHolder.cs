@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace DependencyInjection.StaticAccessor.Blazor
 {
@@ -11,5 +12,10 @@ namespace DependencyInjection.StaticAccessor.Blazor
         /// The <see cref="IServiceProvider"/> within the current scope.
         /// </summary>
         IServiceProvider ServiceProvider { get; set; }
+
+        /// <summary>
+        /// Create a <see cref="IServiceScope"/>
+        /// </summary>
+        IServiceScope Create();
     }
 }
