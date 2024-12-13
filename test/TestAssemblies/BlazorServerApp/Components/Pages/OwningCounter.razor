@@ -18,23 +18,15 @@
 
 @code {
     private int currentCount = 0;
-    private IServiceProvider _provider;
 
     [Inject]
-    public IServiceProvider Provider
-    {
-        get
-        {
-            return _provider;
-        }
-        set
-        {
-            _provider = value;
-        }
-    }
+    public IServiceProvider Provider { get; set; }
 
     private void IncrementCount()
     {
+        Console.WriteLine($"Provider: {Provider.GetHashCode()}");
+        Console.WriteLine($"Scoped: {ScopedServices.GetHashCode()}");
         currentCount++;
+        Utils.M();
     }
 }
