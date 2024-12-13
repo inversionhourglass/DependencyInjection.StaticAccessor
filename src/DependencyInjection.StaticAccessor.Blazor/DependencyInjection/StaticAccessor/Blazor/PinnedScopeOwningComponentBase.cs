@@ -30,12 +30,7 @@ namespace DependencyInjection.StaticAccessor.Blazor
         /// <inheritdoc />
         public IServiceScope Create()
         {
-            var options = ServiceProvider.GetService<IOptions<PinnedScopeOptions>>();
-            if (options != null && options.Value.UseOwningScopedServices)
-            {
-                return new FactoryScope(() => ScopedServices);
-            }
-            return new FoolScope(ServiceProvider);
+            return new FactoryScope(() => ScopedServices);
         }
 
         Task IHandleEvent.HandleEventAsync(EventCallbackWorkItem callback, object? arg)
