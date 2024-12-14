@@ -2,7 +2,7 @@
   <Import Project="../../common.props" />
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1;net7.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net7.0</TargetFrameworks>
 	<RootNamespace />
     <PackageTags>DI IoC DependencyInjection</PackageTags>
 	<Description>This is for the hosting startup project to ensure that you can use the static property PinnedScope.ScopedServices.</Description>
