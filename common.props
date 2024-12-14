@@ -18,7 +18,7 @@
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <PackageReleaseNotes Condition="'$(VersionSuffix)' == ''">For details: https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/releases/tag/v$(VersionPrefix)</PackageReleaseNotes>
+    <PackageReleaseNotes Condition="'$(VersionSuffix)' == ''">For details: https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/releases/tag/$(TagName)</PackageReleaseNotes>
   </PropertyGroup>
   
   <ItemGroup>

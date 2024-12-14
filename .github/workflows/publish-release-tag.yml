@@ -35,7 +35,9 @@ jobs:
         run: Remove-Item -Path nugets -Recurse -Force -ErrorAction SilentlyContinue
 
       - name: Pack NuGets
-        run: dotnet pack ${{ env.SOLUTION }} --no-build --configuration Release
+        run: |
+          $tagName = "${{ github.ref_name }}"
+          dotnet pack ${{ env.SOLUTION }} --no-build --configuration Release -p:TagName=$tagName
 
       - name: Publish
         run: |
