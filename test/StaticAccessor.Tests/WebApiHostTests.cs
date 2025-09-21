@@ -1,5 +1,4 @@
-﻿#if !NET48
-using CommonLib;
+﻿using CommonLib;
 using System.Net.Http;
 using System.Threading.Tasks;
 using WebApiHost;
@@ -34,4 +33,3 @@ namespace StaticAccessor.Tests
         }
     }
 }
-#endif

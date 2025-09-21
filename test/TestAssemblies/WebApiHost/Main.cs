@@ -14,7 +14,7 @@ namespace WebApiHost
         public (IHost host, string address) Execute(ServiceProviderList list)
         {
             IHost host;
-#if NET6_0_OR_GREATER
+
             var builder = WebApplication.CreateBuilder();
             builder.WebHost.UseUrls("http://127.0.0.1:0");
 
@@ -26,19 +26,6 @@ namespace WebApiHost
             Configure(app);
 
             host = app;
-#else
-            host = Host
-                    .CreateDefaultBuilder()
-                    .ConfigureWebHostDefaults(builder =>
-                    {
-                        builder
-                            .ConfigureServices(ConfigureServices)
-                            .Configure(Configure)
-                            .UseUrls("http://127.0.0.1:0");
-                    })
-                    .UsePinnedScopeServiceProvider()
-                    .Build();
-#endif
             host.Start();
 
             var addressesFeature = host.Services.GetRequiredService<IServer>().Features.Get<IServerAddressesFeature>();

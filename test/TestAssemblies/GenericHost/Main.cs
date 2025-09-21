@@ -8,7 +8,6 @@ namespace GenericHost
     {
         public IHost Execute(ServiceProviderList list)
         {
-#if NET7_0_OR_GREATER
             var hostAppBuilder = Host.CreateApplicationBuilder();
 
             hostAppBuilder.Services.AddSingleton(list);
@@ -17,19 +16,6 @@ namespace GenericHost
             hostAppBuilder.UsePinnedScopeServiceProvider();
 
             var host = hostAppBuilder.Build();
-#else
-            var builder = Host.CreateDefaultBuilder();
-
-            builder.ConfigureServices(services =>
-            {
-                services.AddSingleton(list);
-                services.AddHostedService<TestHostedService>();
-            });
-
-            builder.UsePinnedScopeServiceProvider();
-
-            var host = builder.Build();
-#endif
 
             host.Start();
 
