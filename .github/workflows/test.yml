@@ -24,6 +24,7 @@ jobs:
           dotnet-version: |
             8.0.x
             9.0.x
+            10.0.0-rc.1
           
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
