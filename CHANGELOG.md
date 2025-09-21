@@ -1,7 +1,3 @@
-# 9.0
+# 10.0
 
-1. 支持 .NET 9.0，同时将微软官方系列 NuGet 更新到 9.0 版本。
-2. **修改了`PinnedScope.ScopedServices`在`PinnedScopeOwningComponentBase`子类页面事件回调方法及其后续调用方法中的默认表现。在 8.0 版本中，`PinnedScope.ScopedServices`获取到的是与 inject 注入的`IServiceProvider`相同，这一行为与预期不符。在 8.1 及后续版本中，`PinnedScope.ScopedServices`获取到的是`OwningComponentBase.ScopedServies`，这一行为更符合预期。**
-3. .NET 7.0 新增`HostApplicationBuilder`，但由于无法从`HostApplicationBuilder`对象获取`IHostBuilder`对象，所以对为`HostApplicationBuilder`新增扩展方法`UsePinnedScopeServiceProvider`和`UseEditableServiceProvider`。
-4. 使用`UnsafeAccessorAttribute`替代反射访问`ComponentBase.HandleEventAsync`，提升访问性能。
-5. 为了实现第一项描述的功能，修改了`PinnedScopeComponentBase`, `PinnedScopeOwningComponentBase`和`PinnedScopeLayoutComponentBase`的实现，如果之前按照 [已有自定义ComponentBase基类的解决方案](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/blazor-v8.0.0/README.md#%E5%B7%B2%E6%9C%89%E8%87%AA%E5%AE%9A%E4%B9%89componentbase%E5%9F%BA%E7%B1%BB%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88) 修改了`ComponentBase`系列基类，现在你需要重新参照最新的 [已有自定义ComponentBase基类的解决方案](https://github.com/inversionhourglass/DependencyInjection.StaticAccessor/blob/66294298181b1bf81e3d4e8cbfb10f352ca889e3/README.md#%E5%B7%B2%E6%9C%89%E8%87%AA%E5%AE%9A%E4%B9%89componentbase%E5%9F%BA%E7%B1%BB%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88) 进行修改。
+1. 支持 .NET 10.0，同时将微软官方系列 NuGet 更新到 10.0 版本。
