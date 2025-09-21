@@ -21,10 +21,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3.0.3
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
-            10.0.x
+          dotnet-version: 10.0.x
           
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
@@ -42,10 +39,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3.0.3
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
-            10.0.x
+          dotnet-version: 10.0.x
           
       - name: Restore NuGets
         run: dotnet restore ${{ env.SOLUTION }}
@@ -53,8 +47,5 @@ jobs:
       - name: Build Solution in RELEASE
         run: dotnet build --configuration Release --no-restore ${{ env.SOLUTION }}
         
-      - name: Test in RELEASE with net8.0
-        run: dotnet test --configuration Release --no-build --framework net8.0 ${{ env.SOLUTION }}
-        
-      - name: Test in RELEASE with net9.0
-        run: dotnet test --configuration Release --no-build --framework net9.0 ${{ env.SOLUTION }}
+      - name: Test in RELEASE with net10.0
+        run: dotnet test --configuration Release --no-build ${{ env.SOLUTION }}

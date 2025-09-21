@@ -17,10 +17,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@v3.0.3
         with:
-          dotnet-version: |
-            8.0.x
-            9.0.x
-            10.0.x
+          dotnet-version: 10.0.x
 
       - name: Remove Tests
         run: dotnet sln ${{ env.SOLUTION }} remove (ls -r test/**/*.csproj)
