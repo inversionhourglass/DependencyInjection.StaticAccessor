@@ -40,8 +40,8 @@ namespace DependencyInjection.StaticAccessor
                 var pRoot = tProvider.GetProperty("Root", BindingFlags.NonPublic | BindingFlags.Instance);
                 var root = (IServiceScopeFactory)pRoot.GetValue(serviceProvider);
                 var tCallSite = tProvider.Assembly.GetType("Microsoft.Extensions.DependencyInjection.ServiceLookup.ConstantCallSite");
-                var ctor = tCallSite.GetConstructor([typeof(Type), typeof(object)]);
-                var factory = ctor.Invoke([typeof(IServiceScopeFactory), new PinnedServiceScopeFactory(root)]);
+                var ctor = tCallSite.GetConstructor([typeof(Type), typeof(object), typeof(object)]);
+                var factory = ctor.Invoke([typeof(IServiceScopeFactory), new PinnedServiceScopeFactory(root), null]);
 
                 callSiteCache[key] = factory;
 
@@ -64,8 +64,8 @@ namespace DependencyInjection.StaticAccessor
 
         private void VersionCheck(Version version)
         {
-            var minVersion = new Version(9, 0, 0);
-            var maxVersion = new Version(10, 0, 0);
+            var minVersion = new Version(10, 0, 0);
+            var maxVersion = new Version(11, 0, 0);
 
             if (version < minVersion || version >= maxVersion) throw new NotSupportedException($"The version of Microsoft.Extensions.DependencyInjection is {version}, which is out of the allowed range [{minVersion}, {maxVersion}).");
         }
