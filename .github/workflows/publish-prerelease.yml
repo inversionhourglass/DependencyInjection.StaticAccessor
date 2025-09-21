@@ -20,7 +20,7 @@ jobs:
           dotnet-version: |
             8.0.x
             9.0.x
-            10.0.0-rc.1
+            10.0.x
 
       - name: Remove Tests
         run: dotnet sln ${{ env.SOLUTION }} remove (ls -r test/**/*.csproj)
